@@ -1,39 +1,23 @@
-import { supabase } from './supabase.js';
-
-const nombresRol = {
-  coordinador: 'Coordinador',
-  profesor: 'Profesor',
-  alumno: 'Alumno',
-};
+import { obtenerPerfil, cerrarSesion, nombresRol } from './sesion.js';
 
 const saludo = document.getElementById('saludo');
 const datosUsuario = document.getElementById('datos-usuario');
+const menu = document.getElementById('menu');
 
-// Comprobamos quién ha iniciado sesión
-const { data: { user } } = await supabase.auth.getUser();
+document.getElementById('boton-salir').addEventListener('click', cerrarSesion);
 
-if (!user) {
-  // Nadie ha iniciado sesión: volvemos al login
-  window.location.href = 'index.html';
+const perfil = await obtenerPerfil();
+
+if (!perfil) {
+  saludo.textContent = 'No se ha podido cargar tu perfil.';
 } else {
-  // Leemos su perfil y el nombre de su centro
-  const { data: perfil, error } = await supabase
-    .from('perfiles')
-    .select('nombre, rol, organizaciones(nombre)')
-    .eq('id', user.id)
-    .single();
+  saludo.textContent = `Hola, ${perfil.nombre}`;
+  datosUsuario.textContent = `${nombresRol[perfil.rol]} en ${perfil.organizaciones.nombre}`;
 
-  if (error) {
-    saludo.textContent = 'No se ha podido cargar tu perfil.';
-    console.error(error);
-  } else {
-    saludo.textContent = `Hola, ${perfil.nombre}`;
-    datosUsuario.textContent = `${nombresRol[perfil.rol]} en ${perfil.organizaciones.nombre}`;
+  if (perfil.rol === 'coordinador') {
+    const enlace = document.createElement('a');
+    enlace.href = 'usuarios.html';
+    enlace.textContent = 'Gestionar usuarios';
+    menu.appendChild(enlace);
   }
 }
-
-// Botón de cerrar sesión
-document.getElementById('boton-salir').addEventListener('click', async () => {
-  await supabase.auth.signOut();
-  window.location.href = 'index.html';
-});

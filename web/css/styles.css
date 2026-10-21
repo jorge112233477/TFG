@@ -154,3 +154,147 @@ button:disabled {
   margin: 0 auto;
   padding: 2rem 1.5rem;
 }
+
+/* ===== Añadido: menú, tablas y panel del coordinador ===== */
+h2 {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.25rem;
+}
+
+.exito {
+  margin: 1rem 0 0;
+  color: var(--tinta);
+  font-weight: 600;
+  border-left: 0.3rem solid var(--lapiz);
+  padding-left: 0.6rem;
+}
+
+select {
+  width: 100%;
+  padding: 0.75rem;
+  font: inherit;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 0.5rem;
+}
+
+select:focus {
+  outline: 3px solid var(--lapiz);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--tinta);
+}
+
+.enlace-marca {
+  text-decoration: none;
+}
+
+/* Accesos del menú de inicio */
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.menu a {
+  padding: 0.8rem 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--texto-boton);
+  background: var(--tinta);
+  border-radius: 0.5rem;
+}
+
+.menu a:focus-visible {
+  outline: 3px solid var(--lapiz);
+  outline-offset: 2px;
+}
+
+/* Formulario de alta en una fila (en pantallas grandes) */
+.form-alta {
+  display: grid;
+  gap: 0 1rem;
+  grid-template-columns: 1fr;
+  align-items: end;
+}
+
+.form-alta button {
+  margin-top: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .form-alta {
+    grid-template-columns: 2fr 1fr auto;
+  }
+  .form-alta button {
+    width: auto;
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Tablas */
+.tabla-contenedor {
+  overflow-x: auto;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 0.75rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--borde);
+}
+
+th {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.vacio {
+  color: var(--texto-suave);
+}
+
+.estado {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.estado-ok {
+  color: var(--tinta);
+  font-weight: 700;
+}
+
+.boton-pequeno {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+/* Texto solo para lectores de pantalla */
+.solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* Selector de rol dentro de la tabla */
+.select-pequeno {
+  width: auto;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.95rem;
+}
