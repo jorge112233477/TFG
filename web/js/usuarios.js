@@ -1,5 +1,6 @@
 import { supabase } from './supabase.js';
-import { obtenerPerfil, cerrarSesion, nombresRol } from './sesion.js';
+import { obtenerPerfil, nombresRol } from './sesion.js';
+import { montarCabecera } from './layout.js';
 
 const form = document.getElementById('form-alta');
 const botonAlta = document.getElementById('boton-alta');
@@ -9,7 +10,6 @@ const lista = document.getElementById('lista-correos');
 // Página a la que llevará el enlace del correo de invitación
 const URL_CREAR_CONTRASENA = new URL('crear-contrasena.html', window.location.href).href;
 
-document.getElementById('boton-salir').addEventListener('click', cerrarSesion);
 
 // Solo el coordinador puede estar en esta página
 const perfil = await obtenerPerfil();
@@ -17,6 +17,7 @@ const perfil = await obtenerPerfil();
 if (perfil && perfil.rol !== 'coordinador') {
   window.location.href = 'inicio.html';
 } else if (perfil) {
+  montarCabecera(perfil, 'usuarios');
   form.addEventListener('submit', altaEInvitacion);
   cargarLista();
 }
@@ -76,9 +77,11 @@ async function enviarInvitacion(email) {
     body: { email, redirectTo: URL_CREAR_CONTRASENA },
   });
 
-  if (!error) return null;
+  return error ? leerError(error) : null;
+}
 
-  // Intentamos leer el mensaje de error que devuelve la función
+// Lee el mensaje de error que devuelve una Edge Function
+async function leerError(error) {
   try {
     const cuerpo = await error.context.json();
     return cuerpo.error ?? error.message;
@@ -152,8 +155,10 @@ async function cargarLista() {
         crearBoton(perfilUsuario ? 'Reenviar' : 'Invitar', () => reenviar(correo.email)),
       );
     }
-    if (!perfilUsuario) {
-      celdaAccion.appendChild(crearBoton('Quitar', () => quitarCorreo(correo.email)));
+    if (correo.rol !== 'coordinador') {
+      const botonEliminar = crearBoton('Eliminar', () => eliminarUsuario(correo.email, Boolean(perfilUsuario)));
+      botonEliminar.classList.add('boton-peligro');
+      celdaAccion.appendChild(botonEliminar);
     }
   }
 }
@@ -224,21 +229,25 @@ async function cambiarRol(perfilUsuario, selector) {
   mostrarMensaje(`${perfilUsuario.email} ahora es ${nombresRol[nuevoRol].toLowerCase()}.`, 'exito');
 }
 
-// ----- Quitar un correo que aún no se ha invitado -----
-async function quitarCorreo(email) {
-  if (!confirm(`¿Quitar ${email} de la lista?`)) return;
+// ----- Eliminar un usuario (su cuenta y su correo) -----
+async function eliminarUsuario(email, tieneCuenta) {
+  const aviso = tieneCuenta
+    ? `¿Eliminar a ${email}?\n\nSe borrará su cuenta y dejará de estar en sus clases. Esto no se puede deshacer.`
+    : `¿Quitar ${email} de la lista?`;
+  if (!confirm(aviso)) return;
 
-  const { error } = await supabase
-    .from('correos_autorizados')
-    .delete()
-    .eq('email', email);
+  mostrarMensaje(`Eliminando ${email}...`, 'exito');
+
+  const { error } = await supabase.functions.invoke('eliminar-usuario', {
+    body: { email },
+  });
 
   if (error) {
-    mostrarMensaje('No se ha podido quitar el correo.', 'error');
+    mostrarMensaje(`No se ha podido eliminar: ${await leerError(error)}`, 'error');
     return;
   }
 
-  mostrarMensaje(`${email} quitado de la lista.`, 'exito');
+  mostrarMensaje(`${email} eliminado.`, 'exito');
   cargarLista();
 }
 

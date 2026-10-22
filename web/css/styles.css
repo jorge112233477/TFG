@@ -305,3 +305,119 @@ tbody tr:last-child td {
   gap: 0.5rem;
   flex-wrap: wrap;
 }
+
+/* Botón para acciones que borran cosas */
+.boton-peligro {
+  color: var(--error);
+  border-color: var(--error);
+}
+
+/* =====================================================
+   Base visual común: logo, cabecera y navegación
+   ===================================================== */
+
+/* Logo: icono + "Classroom" + etiqueta amarilla "IA" */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.logo img {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.logo-ia {
+  margin-left: -0.15rem;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.85em;
+  color: #1E2A4A;            /* siempre oscuro: va sobre amarillo */
+  background: var(--lapiz);
+  border-radius: 0.35rem;
+}
+
+.logo-grande {
+  font-size: 1.6rem;
+}
+
+.logo-grande img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.titulo-login {
+  margin-top: 1.75rem;
+  font-size: 1.4rem;
+}
+
+/* Cabecera de las páginas interiores */
+.barra {
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  min-height: 4rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.navegacion {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.navegacion a {
+  padding: 0.5rem 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--texto-suave);
+  border-radius: 0.5rem;
+}
+
+.navegacion a:hover {
+  color: var(--tinta);
+  background: var(--fondo);
+}
+
+/* Sección en la que estás: subrayado amarillo de lápiz */
+.navegacion a[aria-current="page"] {
+  color: var(--tinta);
+  background: var(--fondo);
+  box-shadow: inset 0 -3px 0 var(--lapiz);
+}
+
+.navegacion a:focus-visible,
+.logo:focus-visible {
+  outline: 3px solid var(--lapiz);
+  outline-offset: 2px;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.usuario-nombre {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+/* En el móvil, el menú baja a una segunda fila */
+@media (max-width: 40rem) {
+  .navegacion {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .usuario-nombre {
+    display: none;
+  }
+}

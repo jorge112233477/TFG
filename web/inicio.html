@@ -4,23 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inicio - Classroom IA</title>
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="apple-touch-icon" href="img/logo-icono.png">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <header class="barra">
-    <span class="marca marca-pequena">Classroom IA</span>
-    <button id="boton-salir" class="boton-secundario">Cerrar sesión</button>
-  </header>
-
-      <h1 id="saludo">Cargando...</h1>
-    <p id="datos-usuario" class="subtitulo"></p>
-    <nav id="menu" class="menu"></nav>
-  </main>
+  <header id="cabecera" class="barra"></header>
 
   <main class="contenido">
     <h1 id="saludo">Cargando...</h1>
     <p id="datos-usuario" class="subtitulo"></p>
+
+    <!-- Accesos directos según el rol del usuario -->
+    <nav id="menu" class="menu" aria-label="Accesos directos"></nav>
   </main>
 
   <script type="module" src="js/inicio.js"></script>
