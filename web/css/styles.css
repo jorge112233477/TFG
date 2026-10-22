@@ -298,3 +298,10 @@ tbody tr:last-child td {
   padding: 0.35rem 0.6rem;
   font-size: 0.95rem;
 }
+
+/* Varios botones en la misma celda */
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}

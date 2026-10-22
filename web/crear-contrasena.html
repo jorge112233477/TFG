@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activa tu cuenta - Classroom IA</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="pagina-login">
+
+  <main class="tarjeta-login">
+    <h1 class="marca">Classroom IA</h1>
+    <p id="subtitulo" class="subtitulo">Comprobando tu invitación...</p>
+
+    <form id="form-contrasena" novalidate hidden>
+      <label for="nombre">Tu nombre y apellidos</label>
+      <input id="nombre" type="text" autocomplete="name" required>
+
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" autocomplete="new-password" minlength="8" required>
+
+      <label for="password2">Repite la contraseña</label>
+      <input id="password2" type="password" autocomplete="new-password" minlength="8" required>
+
+      <p id="mensaje-error" class="error" role="alert" hidden></p>
+
+      <button type="submit" id="boton-guardar">Activar mi cuenta</button>
+    </form>
+  </main>
+
+  <script type="module" src="js/crear-contrasena.js"></script>
+</body>
+</html>
